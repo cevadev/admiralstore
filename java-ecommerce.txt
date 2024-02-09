@@ -1,0 +1,55 @@
+CREATE DATABASE admiralecommerce;
+use admiralecommerce;
+CREATE TABLE categories(
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    visible boolean default true,
+    category_super INT,
+    FOREIGN KEY(category_super) REFERENCES categories(category_id)
+);
+
+CREATE TABLE brands(
+    brand_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    visible boolean default true
+);
+
+CREATE TABLE products(
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    price DECIMAL(10,2),
+    new_price DECIMAL(10,2),
+    stock   INT default 1,
+    new boolean default true,
+    recommended boolean default false,
+    description VARCHAR(255),
+    visible boolean default true,
+    image VARCHAR(255) default 'demo.png',
+    CHECK(price>new_price),
+    brand_id INT,
+    category_id INT,
+    FOREIGN KEY(brand_id) REFERENCES brands(brand_id),
+    FOREIGN KEY(category_id) REFERENCES categories(category_id)
+);
+
+// ************************************************************************************************ //
+
+INSERT INTO categories(name, visible, category_super) VALUES
+	("ROPA DEPORTIVA", true, 1),
+    	("NIKE", true, 1),
+    	("ADIDAS", true, 1),
+    	("UNDER ARMOUR", true, 1),
+    	("PUMA", true, 1),
+    	("ASICS", true, 1),
+	("HOMBRES", true, 7),
+    	("SACO", true, 7);
+
+// ************************************************************************************************ //
+
+INSERT INTO brands(name, visible) VALUES
+	("NIKE", true),
+    ("ADIDAS", true),
+    ("PUMA", true),
+    ("LACOSTE", true);
+
+// **************************************************************************************************** //
