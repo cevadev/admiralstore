@@ -17,15 +17,14 @@ import org.slf4j.LoggerFactory;
 public class CConection {
     private static Logger logger = LoggerFactory.getLogger(CConection.class);
     private static final String URL = "jdbc:mysql//localhost:3306/admiralecommerce";
-    public static Connection connection(){
+    public static Connection connection() throws SQLException{
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            return DriverManager.getConnection(URL, "root", "root");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            //return DriverManager.getConnection(URL, "root", "root");
         } catch (ClassNotFoundException ex) {
             logger.error("No se encontro la clase com.mysql.jdbc.Driver");
-        } catch (SQLException ex) {
-            logger.error("Se produjo un error de conexion con la base de datos");
-        }
-        return null;
+        } 
+        Connection conn = DriverManager.getConnection(URL, "root", "root");
+        return conn;
     }
 }

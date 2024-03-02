@@ -1,5 +1,5 @@
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*, com.admiral.javabeans.Category, com.admiral.db.CategoryDAO"%>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -216,12 +216,14 @@
                         <div class="left-sidebar">
                             <h2>Categorías</h2>
                             <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                                <%! ArrayList<Category> categoryList = CategoryDAO.list(); %>
+                                <% for(int i=0; i<categoryList.size(); i++){%>
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
                                                 <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                                Ropa deportiva
+                                                <%= categoryList.get(i).getName() %>
                                             </a>
                                         </h4>
                                     </div>
@@ -237,89 +239,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordian" href="#mens">
-                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                                Hombres
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="mens" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <ul>
-                                                <li><a href="#">Fendi</a></li>
-                                                <li><a href="#">Guess</a></li>
-                                                <li><a href="#">Valentino</a></li>
-                                                <li><a href="#">Dior</a></li>
-                                                <li><a href="#">Versace</a></li>
-                                                <li><a href="#">Armani</a></li>
-                                                <li><a href="#">Prada</a></li>
-                                                <li><a href="#">Dolce and Gabbana</a></li>
-                                                <li><a href="#">Chanel</a></li>
-                                                <li><a href="#">Gucci</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordian" href="#womens">
-                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                                Mujeres
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="womens" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <ul>
-                                                <li><a href="#">Fendi</a></li>
-                                                <li><a href="#">Guess</a></li>
-                                                <li><a href="#">Valentino</a></li>
-                                                <li><a href="#">Dior</a></li>
-                                                <li><a href="#">Versace</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title"><a href="#">Niños</a></h4>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title"><a href="#">Moda</a></h4>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title"><a href="#">Hogar</a></h4>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title"><a href="#">Interiores</a></h4>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title"><a href="#">Ropa</a></h4>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title"><a href="#">Sacos</a></h4>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title"><a href="#">Zapatos</a></h4>
-                                    </div>
-                                </div>
+                                <%}%>
                             </div><!--/category-products-->
 
                             <div class="brands_products"><!--brands_products-->

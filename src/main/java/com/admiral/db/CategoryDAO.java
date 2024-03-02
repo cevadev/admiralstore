@@ -15,19 +15,24 @@ import java.util.ArrayList;
  *
  * @author Test
  */
-public class CategoriaDAO {
-    public static ArrayList<Category> listar(){
+public class CategoryDAO {
+    public static ArrayList<Category> list(){
         try{
             String sql = "{CALL sp_listarCategoriaSuperior()}";
             Connection scc = CConection.connection();
             CallableStatement statement = scc.prepareCall(sql);
             ResultSet rs = statement.executeQuery();
+            if(!(rs.next())){
+                System.out.println("Lista de categorias vacia");
+                return null;
+            }
             ArrayList<Category> result = new ArrayList<>();
             while(rs.next()){
                 Category category = new Category();
                 category.setId(rs.getInt("category_id"));
                 category.setName(rs.getString("name"));
                 result.add(category);
+                System.out.println(category);
             }
             return result;
         }

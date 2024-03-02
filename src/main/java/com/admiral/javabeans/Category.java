@@ -60,5 +60,10 @@ public class Category implements Serializable{
     public void setCategory_super(int category_super) {
         this.category_super = category_super;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" + "id=" + id + ", name=" + name + ", visible=" + visible + ", category_super=" + category_super + '}';
+    }
     
 }
