@@ -16,29 +16,62 @@ import java.util.ArrayList;
  * @author Test
  */
 public class CategoryDAO {
-    public static ArrayList<Category> list(){
-        try{
-            String sql = "{CALL sp_listarCategoriaSuperior()}";
-            Connection scc = CConection.connection();
-            CallableStatement statement = scc.prepareCall(sql);
-            ResultSet rs = statement.executeQuery();
-            if(!(rs.next())){
-                System.out.println("Lista de categorias vacia");
-                return null;
-            }
-            ArrayList<Category> result = new ArrayList<>();
-            while(rs.next()){
-                Category category = new Category();
-                category.setId(rs.getInt("category_id"));
-                category.setName(rs.getString("name"));
-                result.add(category);
-                System.out.println(category);
-            }
-            return result;
+
+  public ArrayList<Category> list() {
+    String sql = "{CALL sp_listarCategoriaSuperior()}";
+     ArrayList<Category> categories = new ArrayList<>();
+    try (Connection scc = CConection.connection(); CallableStatement statement = scc.prepareCall(sql)) {
+      try (ResultSet rs = statement.executeQuery()) {
+        while (rs.next()) {
+          Category category = new Category();
+          category.setId(rs.getInt("category_id"));
+          category.setName(rs.getString("name"));
+          categories.add(category);
         }
-        catch(SQLException e){
-            System.out.println(e.getClass().getName() + " generated: " + e.getMessage());
-        }
-        return null;
+      }
+      return categories;
+    } catch (SQLException e) {
+      System.out.println(e.getClass().getName() + " generated: " + e.getMessage());
     }
+    return null;
+  }
+
+  public ArrayList<Category> listarSubCategorias(int categorySuper) {
+    String sql = "{CALL sp_listarSubCategorias(?)}";
+     ArrayList<Category> subCategories = new ArrayList<>();
+    try (Connection scc = CConection.connection()) {
+      try (CallableStatement statement = (CallableStatement) scc.prepareCall(sql)) {
+        statement.setInt(1, categorySuper);
+        try (ResultSet rs = statement.executeQuery()) {
+          while (rs.next()) {
+            Category category = new Category();
+            category.setId(rs.getInt("category_id"));
+            category.setName(rs.getString("name"));
+            subCategories.add(category);
+          }
+        }
+        return subCategories;
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getClass().getName() + " generated: " + e.getMessage());
+    }
+    return null;
+  }
+  
+  public static boolean isSupper(int category){
+    String sql = "{CALL sp_contarSubCategorias(?)}";
+    try(Connection scc = CConection.connection()){
+      try (CallableStatement statement = (CallableStatement) scc.prepareCall(sql)){
+        statement.setInt(1, category);
+        try (ResultSet rs = statement.executeQuery()) {
+          rs.next();
+          return rs.getInt("quantity") > 0;
+        }
+      }
+    }
+    catch (SQLException e) {
+      System.out.println(e.getClass().getName() + " generated: " + e.getMessage());
+    }
+    return false;
+  }
 }

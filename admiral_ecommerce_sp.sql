@@ -19,3 +19,11 @@ BEGIN
 	SELECT category_id, name FROM categories WHERE category_id<>category_super AND visible=TRUE AND category_super=p_csuper;
 END$$
 CALL sp_listarSubCategorias(7);
+
+USE admiralecommerce;
+delimiter $$
+CREATE PROCEDURE sp_contarSubCategorias(categoryId int)
+BEGIN
+	SELECT COUNT(*) as quantity FROM categories WHERE category_super = categoryId AND category_id<>categoryId;
+END$$
+CALL sp_contarSubCategorias(1);
